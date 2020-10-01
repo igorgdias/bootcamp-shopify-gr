@@ -1,0 +1,142 @@
+<style>
+.cont{
+    display: block;
+    margin: auto;
+}
+.imgcont{
+    margin: 5px 10px;
+}
+.dg{
+    visibility: visible;
+}
+.dg.inactive-slide{
+    visibility:hidden;
+    width: 0px;
+    height: 0px;
+}
+.slide-tab{
+    padding: 0px 20px;
+    margin-bottom: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.active-tab{
+    color: orange;
+    border-bottom: orange solid 3px;
+}
+.small-text.subtitle-dg{
+    font-size: 14px;
+    color: orange;
+    text-align: center;
+}
+.big-text.title-dg{
+    font-size: 36px;
+    text-align: center;
+}
+.text-cont{
+    margin: 25px 0px;
+}
+.img-manipulator{
+    display: flex;
+    align-items: flex-start; 
+    justify-content: center; 
+    height: 200px; 
+}
+.tab-container{
+    display: flex; 
+    justify-content: space-around; 
+    flex-direction: row;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.tab-container::-webkit-scrollbar{
+    display: none;
+}
+</style>
+<div class="text-cont">
+    <p class="small-text subtitle-dg">START WITH THE BASICS</p>
+    <p class="big-text title-dg">SHOP BY GARMENT</p>
+</div>
+
+<div class="main-dg">
+    <div class="tab-container">
+        <div 
+        class="slide-tab active-tab"  
+        collection="camisas" 
+        collection-type="model">
+            Tee-Shirt
+        </div>
+        <div 
+        class="slide-tab" 
+        collection="hats" 
+        collection-type="model">
+            Hats
+        </div>
+        <div 
+        class="slide-tab" 
+        collection="polo" 
+        collection-type="model">
+            Polo
+        </div>
+    </div>
+    <div class="cont" style="position: relative;">
+        {% for c in collections%}
+            <div class="dg {{c.handle}} {%unless forloop.first == true%}inactive-slide{%endunless%}">
+            {%for p in c.products%}
+                <div class="imgcont"><div class="img-manipulator">
+                    <img style="max-height: 200px;"src="{{p.featured_image | img_url: "200x200"}}"></div>
+                    <p style="margin: auto; text-align: center; font-weight: bold;">{{p.title}}</p>
+                    <p style="margin: auto; text-align: center;">{{p.price | money}}</p>
+                </div>
+            {%endfor%}
+            </div>
+        {%endfor%}
+    </div>
+</div>
+
+
+{%schema%}
+{
+        "name": "slider",
+        "class": "index-section index-section--flush",
+        "blocks": [
+            {
+                "type": "collection",
+                "name": "C",
+                "settings": [
+                    {"type": "collection",
+                    "id": "c",
+                    "label": "Collection to display"}
+                ]
+            }
+        ],
+        "settings": 
+        [
+            {
+                "type": "text",
+                "id": "tagText",
+                "label": "Tag",
+                "default": "text"
+            },
+            {
+                "type": "color",
+                "id": "color_footer_text",
+                "label": "Text Color",
+                "default": "#333232"
+            },
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo Image"
+            }
+        ],
+        "presets": [
+            {
+                "category": "Teste",
+                "name":"Teste"
+            }
+        ]
+}
+{%endschema%}
